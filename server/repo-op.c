@@ -4668,6 +4668,10 @@ find_deleted_recursive (SeafRepo *repo,
     SeafDirent *dent1, *dent2;
     int res, ret = 0;
 
+    /* If there is no difference in the two directories, no need to recurse. */
+    if (strcmp (d1->dir_id, d2->dir_id) == 0)
+        return ret;
+
     p1 = d1->entries;
     p2 = d2->entries;
 
