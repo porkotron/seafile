@@ -21,6 +21,12 @@
 
 SeafileController *ctl;
 
+#if defined(__SVR4) || defined(__sun)
+    const char *selfpath = "/proc/self/path/a.out";
+#else
+    const char *selfpath = "/proc/self/exe";
+#endif
+
 static char *controller_pidfile = NULL;
 
 char *bin_dir = NULL;
@@ -244,7 +250,7 @@ static void
 init_seafile_path ()
 {
     GError *error = NULL;
-    char *executable = g_file_read_link ("/proc/self/exe", &error);
+    char *executable = g_file_read_link (selfpath, &error);
     char *tmp = NULL;
     if (error != NULL) {
         seaf_warning ("failed to readlink: %s\n", error->message);

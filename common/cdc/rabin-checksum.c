@@ -1,7 +1,7 @@
 #include <sys/types.h>
 #include "rabin-checksum.h"
 
-#ifdef WIN32
+#if defined(WIN32) || defined(__SVR4) || defined(__sun)
 #include <stdint.h>
 #ifndef u_int
 typedef unsigned int u_int;

@@ -28,12 +28,6 @@
 #include <winsock2.h>
 #include <windows.h>   
 
-#define DT_UNKNOWN 0
-#define DT_DIR     1
-#define DT_REG     2
-#define DT_LNK     3
-#define DTYPE(de)    DT_UNKNOWN
-
 #define S_IFLNK    0120000 /* Symbolic link */
 #define S_ISLNK(x) (((x) & S_IFMT) == S_IFLNK)
 #define S_ISSOCK(x) 0
@@ -58,13 +52,20 @@ extern int git_munmap(void *start, size_t length);
     #include <arpa/inet.h>
     #include <netdb.h>
     #include <sys/mman.h>
-
-#define DTYPE(de)    ((de)->d_type)
-
 #endif
 
 #ifndef O_BINARY
 #define O_BINARY 0
+#endif
+
+#if defined(WIN32) || defined(__SVR4) || defined(__sun)
+#define DT_UNKNOWN 0
+#define DT_DIR     1
+#define DT_REG     2
+#define DT_LNK     3
+#define DTYPE(de)    DT_UNKNOWN    
+#else
+#define DTYPE(de)    ((de)->d_type)
 #endif
 
 /* unknown mode (impossible combination S_IFIFO|S_IFCHR) */
