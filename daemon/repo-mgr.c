@@ -4109,7 +4109,7 @@ checkout_file (const char *repo_id,
     gboolean force_conflict = FALSE;
     gboolean update_mode_only = FALSE;
 
-#ifndef __linux__
+#if !defined(__linux__) && !defined(__SVR4) && !defined(__sun)
     path = build_case_conflict_free_path (worktree, name,
                                           conflict_hash, no_conflict_hash,
                                           &case_conflict,
@@ -4285,7 +4285,7 @@ checkout_empty_dir (const char *worktree,
     char *path;
     gboolean case_conflict = FALSE;
 
-#ifndef __linux__
+#if !defined(__linux__) && !defined(__SVR4) && !defined(__sun)
     path = build_case_conflict_free_path (worktree, name,
                                           conflict_hash, no_conflict_hash,
                                           &case_conflict,
@@ -4699,7 +4699,7 @@ schedule_file_fetch (GThreadPool *tpool,
         new_ce = TRUE;
     }
 
-#ifndef __linux__
+#if !defined(__linux__) && !defined(__SVR4) && !defined(__sun)
     gboolean case_conflict = FALSE;
     path = build_case_conflict_free_path (worktree, de->name,
                                           conflict_hash, no_conflict_hash,
@@ -4844,7 +4844,7 @@ checkout_file_http (FileTxData *data,
      * A.txt to checkout, we can only detect case conflict after one file is checkecd
      * out. So we need to generate a new one here.
      */
-#ifndef __linux__
+#if !defined(__linux__) && !defined(__SVR4) && !defined(__sun)
     path = build_case_conflict_free_path (worktree, de->name,
                                           conflict_hash, no_conflict_hash,
                                           &case_conflict,
@@ -5214,7 +5214,7 @@ do_rename_in_worktree (DiffEntry *de, const char *worktree,
     old_path = g_build_filename (worktree, de->name, NULL);
 
     if (seaf_util_exists (old_path)) {
-#ifndef __linux__
+#if !defined(__linux__) && !defined(__SVR4) && !defined(__sun)
         gboolean case_conflict;
         new_path = build_case_conflict_free_path (worktree, de->new_name,
                                                   conflict_hash, no_conflict_hash,

@@ -101,7 +101,7 @@ obj_backend_fs_read (ObjBackend *bend,
 static int
 fsync_obj_contents (int fd)
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(__SVR4) || defined(__sun)
     /* Some file systems may not support fsync().
      * In this case, just skip the error.
      */
@@ -153,7 +153,7 @@ fsync_obj_contents (int fd)
 static int
 rename_and_sync (const char *tmp_path, const char *obj_path)
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(__SVR4) || defined(__sun)
     char *parent_dir;
     int ret = 0;
 

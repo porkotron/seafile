@@ -664,7 +664,7 @@ error:
 
 #endif  /* defined WIN32 || defined __APPLE__ */
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__SVR4) || defined(__sun)
 
 char *
 build_checkout_path (const char *worktree, const char *ce_name, int len)
@@ -707,7 +707,7 @@ build_checkout_path (const char *worktree, const char *ce_name, int len)
     return g_strdup(path);
 }
 
-#endif  /* __linux__ */
+#endif  /* defined(__linux__) || defined(__SVR4) || defined(__sun) */
 
 static int
 checkout_entry (struct cache_entry *ce,
@@ -724,7 +724,7 @@ checkout_entry (struct cache_entry *ce,
     gboolean force_conflict = FALSE;
 
     path_in = g_build_path ("/", o->base, ce->name, NULL);
-#ifndef __linux__
+#if !defined(__linux__) && !defined(__SVR4) && !defined(__sun)
     path = build_case_conflict_free_path (o->base, ce->name,
                                           conflict_hash, no_conflict_hash,
                                           &case_conflict,

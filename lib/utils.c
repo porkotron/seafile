@@ -2161,14 +2161,20 @@ wchar_from_utf8 (const char *utf8)
 
 #endif  /* ifdef WIN32 */
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__SVR4) || defined(__sun)
+
+#if defined(__SVR4) || defined(__sun)
+const char *processpath = "/proc/%s/object/a.out";
+#else
+const char *processpath = "/proc/%s/exe";
+#endif
 /* read the link of /proc/123/exe and compare with `process_name' */
 static int
 find_process_in_dirent(struct dirent *dir, const char *process_name)
 {
     char path[512];
     /* fisrst construct a path like /proc/123/exe */
-    if (sprintf (path, "/proc/%s/exe", dir->d_name) < 0) {
+    if (sprintf (path, processpath, dir->d_name) < 0) {
         return -1;
     }
 

@@ -61,7 +61,7 @@ get_argv_utf8 (int *argc)
 }
 #endif
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__SVR4) || defined(__sun)
 
 /* Compare the owner uid of the seafile-data dir with the current uid. */
 static gboolean
@@ -84,7 +84,7 @@ check_user (const char *seafile_dir, uid_t *current_user, uid_t *seafile_user)
     return (euid == st.st_uid);
 }
 
-#endif  /* __linux__ */
+#endif  /* defined(__linux__) || defined(__SVR4) || defined(__sun) */
 
 int
 main(int argc, char *argv[])
@@ -147,7 +147,7 @@ main(int argc, char *argv[])
     if (seafile_dir == NULL)
         seafile_dir = g_build_filename (config_dir, "seafile-data", NULL);
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__SVR4) || defined(__sun)
     uid_t current_user, seafile_user;
     if (!check_user (seafile_dir, &current_user, &seafile_user)) {
         seaf_message ("Current user (%u) is not the user for running "
