@@ -520,7 +520,7 @@ def init_seahub():
 def check_django_version():
     '''Requires django 1.5'''
     import django
-    if django.VERSION[1] != 5:
+    if django.VERSION[1] < 5:
         error('Django 1.5 is required')
     else:
         del django
@@ -668,7 +668,8 @@ def start_controller():
 
 def start_seahub_gunicorn():
     argv = [
-        'gunicorn_django',
+        'gunicorn',
+        'seahub.wsgi:application',
         '-c',
         conf[CONF_SEAHUB_CONF],
         '-b',
